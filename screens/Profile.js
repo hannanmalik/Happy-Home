@@ -23,7 +23,7 @@ const Profile = ({navigation}) => {
       </View>
       <Text style={styles.profileNameText}>{name}</Text>
       <Text style={styles.emailText} >{email}</Text>
-      <TouchableOpacity style={styles.editButton}>
+      <TouchableOpacity style={styles.editButton} onPress={() => navigation.navigate('EditProfile')}>
         <Text style={styles.editButtonText}>Edit</Text>
       </TouchableOpacity>
     </View>
@@ -138,8 +138,9 @@ const styles = StyleSheet.create({
   horizontalLine:{
     marginTop:17,
     width: '90%',
-    height: 0.7,
-    backgroundColor: '#000'
+    height: 0.8,
+    backgroundColor: '#000',
+    elevation: 2,
 
   },
   list:{

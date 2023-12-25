@@ -2,14 +2,15 @@
   import * as React from 'react';
   import { View, Text } from 'react-native';
   import { NavigationContainer } from '@react-navigation/native';
-  import { createDrawerNavigator } from '@react-navigation/drawer';
+  import { createNativeStackNavigator } from '@react-navigation/native-stack';  import { createDrawerNavigator } from '@react-navigation/drawer';
   import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
   import HomeScreen from './screens/HomeScreen';
   import Properties from './screens/Properties';
   import Profile from './screens/Profile';
   import Chats from './screens/Chats';
   import AddProperty from './screens/AddProperty';
-
+  import EditProfile from './screens/EditProfile';
+  const Stack = createNativeStackNavigator();
   const Drawer = createDrawerNavigator();
   const Tab = createBottomTabNavigator();
 
@@ -26,6 +27,15 @@
     );
   }
 
+  const ProfileStack = () => {
+    return (
+      <Stack.Navigator>
+        <Stack.Screen name="ProfileTab" component={HomeTab} options={{ headerShown: false }}/>
+        <Stack.Screen name="EditProfile" component={EditProfile} options={{ headerShown: false,  }}/>
+      </Stack.Navigator>
+    );
+  }
+
   // function HomeDrawer() {
   //   return (
   //     <Drawer.Navigator>
@@ -37,7 +47,7 @@
   export default function App() {
     return (
       <NavigationContainer>
-        <HomeTab />
+        <ProfileStack />
       </NavigationContainer>
     );
   }
