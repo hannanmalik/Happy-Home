@@ -10,6 +10,7 @@
   import Chats from './screens/Chats';
   import AddProperty from './screens/AddProperty';
   import EditProfile from './screens/EditProfile';
+  import DescriptionScreen from './screens/DescriptionScreen';
   const Stack = createNativeStackNavigator();
   const Drawer = createDrawerNavigator();
   const Tab = createBottomTabNavigator();
@@ -30,6 +31,7 @@
   const ProfileStack = () => {
     return (
       <Stack.Navigator>
+        <Stack.Screen name="DescriptionScreen" component={DescriptionScreen} options={{ headerShown: false }}/>
         <Stack.Screen name="ProfileTab" component={HomeTab} options={{ headerShown: false }}/>
         <Stack.Screen name="EditProfile" component={EditProfile} options={{ headerShown: false,  }}/>
       </Stack.Navigator>
