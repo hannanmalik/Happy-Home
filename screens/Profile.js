@@ -5,19 +5,40 @@ import {
   StyleSheet,
   Image,Text,TextInput,TouchableOpacity
 } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import auth from '@react-native-firebase/auth';
+import firestore from '@react-native-firebase/firestore';
 
 
 const Profile = ({navigation}) => {
   const [name, setName] = React.useState('Michael Smith');
   const [email, setEmail] = React.useState('mmk12@gmail.com');
+  const [url,setUrl] = React.useState('');
+  useEffect(() => {
+    const getUserCreds = async () => {
+        const userId = await AsyncStorage.getItem('user_id')
+        console.log(userId)
+        
+        setEmail(auth().currentUser.email)
+        firestore().collection('users').doc(userId).get()
+            .then(response => {
+              // console.log(response)
+                const data = response["_data"]
+                const fullName = `${data.firstname || ''} ${data.lastname || ''}`;
+                setName(fullName);
+                setUrl(data["profile_pic"])
+                console.log(url)
+            }).catch(e => console.error(e))
 
-
+    }
+    getUserCreds()
+},[])
 
   return(
   <View style={styles.container}>
     <View style={styles.imageProfile}>
       <View style={styles.circle}>
-        <Image source={require('../images/dp.png')}
+        <Image source={{uri : url}}
           style={styles.dp}
         />
       </View>
@@ -106,6 +127,7 @@ const styles = StyleSheet.create({
     width: '100%',
     height: '100%',
     resizeMode: 'cover',
+  
   },
   profileNameText:{
     marginTop:18,

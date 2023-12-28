@@ -1,5 +1,6 @@
 import 'react-native-gesture-handler'
 import HomeSlider from '../components/HomeSlider';
+import GallerySlider from '../components/GallerySlider';
 import React, {useState, useEffect} from 'react';
 import {
   View,
@@ -23,6 +24,73 @@ const DescriptionScreen = ({navigation}) => {
   const [floorLevel, setFloorLevel] = React.useState('NAN');
   const [description, setDescription] = React.useState('2 Story Furnished House for Sale in Luxury Housing Society. The House is unfurnished and has 4 bedrooms and 5 bathrooms.Story Furnished House for Sale in Luxury Housing Society. The House is unfurnished and has 4 bedrooms an');
   const slides = [{image: require('../images/slider-image-1.png')},{image: require('../images/slider-image-2.png')},];
+  const SlideBtn = ({text, onPress, height}) => {
+    return(
+      <View style={{...styles.sliderBtn, height: height}}>
+        <Text style={styles.heading2}>More</Text>
+        <Text style={styles.desc}>Show all {text}</Text>
+        <TouchableOpacity style={styles.moreBtn} onPress={onPress}>
+          <Image source={require('../images/back.png')} style={styles.buttonIcon}/>
+        </TouchableOpacity>
+   </View>
+  )
+  };
+  const slides3 = [
+    {
+      image: require('../images/slider-image-1.png'),
+      height: 210,
+      width: 152,
+      sliderBg: true,
+      price: '$1000',
+      title: '4 Villa flat is awesome and awesome and awesome',
+      location: 'New York',
+      date: '12/12/2020',
+      time: '10:00 AM',
+    },
+    
+    {
+      image: require('../images/slider-image-1.png'),
+      height: 210,
+      width: 152,
+      sliderBg: true,
+      price: '$1000',
+      title: '4 Villa flat is awesome and awesome and awesome',
+      location: 'New York',
+      date: '12/12/2020',
+      time: '10:00 AM',
+    },
+    {
+      image: require('../images/slider-image-1.png'),
+      height: 210,
+      width: 152,
+      sliderBg: true,
+      price: '$1000',
+      title: '4 Villa flat is awesome and awesome and awesome',
+      location: 'New York',
+      date: '12/12/2020',
+      time: '10:00 AM',
+    },
+    {
+      image: require('../images/slider-image-1.png'),
+      height: 210,
+      width: 152,
+      sliderBg: true,
+      price: '$1000',
+      title: '4 Villa flat is awesome and awesome and awesome',
+      location: 'New York',
+      date: '12/12/2020',
+      time: '10:00 AM',
+    },
+    {
+      image: require('../images/slider-image-1.png'),
+      height: 210,
+      width: 152,
+      sliderBg: true,
+      price: '$1000',
+      title: '4 Villa flat is awesome and awesome and awesome',
+      location: 'New York',
+      date: '12/12/2020',
+      time: '10:00 AM',},];
   return(
   <ScrollView style={styles.scrollContainer}>
     <View style={styles.container}>
@@ -96,6 +164,14 @@ const DescriptionScreen = ({navigation}) => {
             
         </View>
         
+        <ScrollView style={styles.slideContainer} horizontal={true}>
+            {slides3.map((slide, index) => (
+                <GallerySlider elevation={10} key={index} {...slide}/>
+                    ))}
+        <SlideBtn text='properties' onPress={() => console.log('Button pressed for slide 3')} />
+        </ScrollView>
+
+        <View style={{height:40}}></View>
 
     </View>
 
@@ -262,9 +338,46 @@ const styles = StyleSheet.create({
         backgroundColor: '#FFF', 
         margin: 3,
       },
-    
+      slideContainer:{
+        width: '100%',
+        flexDirection: 'row',
+        marginTop:80,
+    },
+    sliderBtn: {
+      width: 135, 
+      height: 135, 
+      marginRight: 12,
+      paddingLeft: 20,
+      borderRadius: 10,
+      overflow: 'hidden', 
+      backgroundColor:'#FFF',
+  },
+  heading2: {
+    color: '#131313',
+    fontFamily: 'Poppins-Black',
+    fontSize: 15,
+    fontWeight: 'bold',
+    marginTop: 10,
+  },
+  desc: {
+    color: '#4E4E4E',
+    fontFamily: 'Poppins',
+    fontSize: 10,
+    marginTop: 5,
+  },
+  moreBtn: {
+    width: 25,
+    height: 25,
+    borderRadius: 25 / 2, 
+    backgroundColor: '#282475', 
+    marginTop: 10, 
+    justifyContent: 'center',
+    alignItems: 'center',
+    position: 'absolute',
+    bottom: 10,
+    right:10,
 
-
+},
 
 
 

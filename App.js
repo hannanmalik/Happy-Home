@@ -11,6 +11,12 @@
   import AddProperty from './screens/AddProperty';
   import EditProfile from './screens/EditProfile';
   import DescriptionScreen from './screens/DescriptionScreen';
+  import RegisterScreen from './screens/signup';
+  import LoginScreen from './screens/login';
+  import Messages from './screens/Message';
+  import AsyncStorage from '@react-native-async-storage/async-storage';
+import auth from '@react-native-firebase/auth';
+
   const Stack = createNativeStackNavigator();
   const Drawer = createDrawerNavigator();
   const Tab = createBottomTabNavigator();
@@ -19,8 +25,10 @@
     return (
       <Tab.Navigator >
         <Tab.Screen name="Profile"  component={Profile} options={{ headerShown: false }} />
+        <Tab.Screen name="Chats" component={Chats} options={{ headerShown: false }}/>
+        
         <Tab.Screen name="Home" component={HomeScreen} />
-        <Tab.Screen name="Chats" component={Chats} />
+        
         <Tab.Screen name="AddProperty" component={AddProperty} />
         <Tab.Screen name="Gallery" component={Properties} />
         
@@ -30,10 +38,24 @@
 
   const ProfileStack = () => {
     return (
+      
       <Stack.Navigator>
-        <Stack.Screen name="DescriptionScreen" component={DescriptionScreen} options={{ headerShown: false }}/>
+        <Stack.Screen
+        name="LoginScreen"
+        component={LoginScreen}
+        options={{headerShown: false}}
+      />
+        <Stack.Screen
+        name="RegisterScreen"
+        component={RegisterScreen}
+        options={{headerShown: false}}
+      />
+         
+      
+        {/* <Stack.Screen name="DescriptionScreen" component={DescriptionScreen} options={{ headerShown: false }}/> */}
         <Stack.Screen name="ProfileTab" component={HomeTab} options={{ headerShown: false }}/>
-        <Stack.Screen name="EditProfile" component={EditProfile} options={{ headerShown: false,  }}/>
+        <Stack.Screen name="Messages" component={Messages} options={{ headerShown: false }}/>
+        <Stack.Screen name="EditProfile" component={EditProfile} options={{   }}/>
       </Stack.Navigator>
     );
   }

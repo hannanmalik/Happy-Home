@@ -3,20 +3,72 @@ import React, {useState, useEffect} from 'react';
 import {
   View,
   StyleSheet,
-  Image,Text,TouchableOpacity,TextInput
+  Image,Text,TouchableOpacity,TextInput,KeyboardAvoidingView,
+  TouchableWithoutFeedback,Keyboard
 } from 'react-native';
-
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import auth from '@react-native-firebase/auth';
+import firestore from '@react-native-firebase/firestore';
+import { ToastAndroid } from 'react-native';
 
 const EditProfile = ({navigation}) => {
-  const [firstName, setFirstName] = React.useState('Michael');
-  const [lastName, setLastName] = React.useState('Smith');
-  const [phone, setPhone] = React.useState('+92 0333 1234567');
-  const [email, setEmail] = React.useState('mmk12@gmail.com');
+  const [firstName, setFirstName] = React.useState('');
+  const [lastName, setLastName] = React.useState('');
+  const [phone, setPhone] = React.useState('');
+  const [email, setEmail] = React.useState('');
+  const [url,setUrl] = React.useState('');
+
+  
+  useEffect(() => {
+    const getUserCreds = async () => {
+        const userId = await AsyncStorage.getItem('user_id')
+        console.log(userId)
+        setEmail(auth().currentUser.email)
+        firestore().collection('users').doc(userId).get()
+            .then(response => {
+              console.log(response)
+                const data = response["_data"]
+                setFirstName(data["firstname"]);
+                setLastName(data["lastname"]);
+                setPhone(data["phone"]);
+                setUrl(data["profile_pic"])
+            }).catch(e => console.error(e))
+
+    }
+    getUserCreds()
+},[]);
 
 
+const updateUserProfile = async () => {
+  try {
+    const userId = await AsyncStorage.getItem('user_id');
+    await firestore().collection('users').doc(userId).update({
+      firstname: firstName,
+      lastname: lastName,
+      phone: phone,
+    });
+
+
+    ToastAndroid.showWithGravityAndOffset(
+      'Data Updated',
+      ToastAndroid.LONG,
+      ToastAndroid.BOTTOM,
+      25,
+      50
+    );
+    console.log('User data  updated successfully');
+    navigation.goBack();
+  } catch (error) {
+    console.error('Error updating user data:', error);
+  }
+};
 
   return(
-  <View style={styles.container}>
+    <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
+    <View
+      
+      style={styles.container}
+    >
     <View style={styles.cancelContainer}>
         <TouchableOpacity style={styles.cancelButton}  onPress={() => navigation.goBack()}>
             <Text style={styles.cancelText}>Cancel</Text>
@@ -24,9 +76,11 @@ const EditProfile = ({navigation}) => {
     </View>
     <View style={styles.imageProfile}>
       <View style={styles.circle}>
-        <Image source={require('../images/dp.png')}
+        <Image source={{uri : url}}
           style={styles.dp}
         />
+      </View>
+      <TouchableOpacity style={{position:'absolute',}}>
          <Image source={require('../images/vector1.png')}
           style={styles.v1}
         />
@@ -42,7 +96,7 @@ const EditProfile = ({navigation}) => {
         <Image source={require('../images/vector5.png')}
           style={styles.v5}
         />
-      </View>
+        </TouchableOpacity>
     </View>
     <View style={styles.form}>
         <View style={styles.textBox}>
@@ -69,7 +123,7 @@ const EditProfile = ({navigation}) => {
             <Text style={styles.textBoxLabel}>Phone</Text>
             <TextInput
             label="Phone"
-            value={phone}
+            value={phone == null ? '+92' : phone} 
             onChangeText={phone => setPhone(phone)} 
             style={styles.textBoxInput}
             />
@@ -81,20 +135,21 @@ const EditProfile = ({navigation}) => {
             label="Email"
             value={email}
             onChangeText={email => setEmail(email)} 
-            style={styles.textBoxInput}
+            style={styles.textBoxInput} editable={false}
             />
         </View>
 
 
         
     </View>
-    <TouchableOpacity style={styles.saveButton} onPress={() => navigation.goBack()}>
+    <TouchableOpacity style={styles.saveButton} onPress={() => updateUserProfile()}>
         <Text style={styles.saveButtonText}>Save</Text>
       </TouchableOpacity>
     
     
 
-  </View>
+      </View>
+    </TouchableWithoutFeedback>
   );
 };
 
@@ -120,7 +175,7 @@ const styles = StyleSheet.create({
     width: 171.5,
     height: 171.5,
     borderRadius: 324.988,
-    // overflow: 'hidden',
+    overflow: 'hidden',
     borderColor: 'lightgray',
     borderWidth: 1,
   },
@@ -148,34 +203,34 @@ const styles = StyleSheet.create({
   v1:{
     position:'absolute',
     top:121.75,
-    left:121.75,
+    left:30.75,
     
     
   },
   v2:{
     position:'absolute',
     top:132.5,
-    left:132.5,
+    left:41.5,
     tintColor:"black"
     
   },
   v3:{
     position:'absolute',
     top:137.9,
-    left:137.9,
+    left:46.9,
     tintColor:"black"
     
   },
   v4:{
     position:'absolute',
     top:146.5,
-    left:149,
+    left:58,
     tintColor:"black"
   },
   v5:{
     position:'absolute',
     top:149,
-    left:146.5,
+    left:55.5,
     tintColor:"black"
   },
   form:{
