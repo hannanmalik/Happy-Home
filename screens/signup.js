@@ -15,6 +15,8 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const RegisterScreen = ({navigation}) => {
 const [showPassword, setShowPassword] = useState(false);
+const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+
 const [firstname, setFirstName] = React.useState('');
 const [lastname, setLastName] = React.useState('');
 const [email, setEmail] = React.useState('');
@@ -63,134 +65,99 @@ const handleSignUp = async () => {
       console.log(error.message)
 });};
 
-const toggleShowPassword = () => {
-    setShowPassword((prevShowPassword) => !prevShowPassword);
-  };
+      const togglePasswordVisibility = () => {
+        setShowPassword(!showPassword);
+      };
 
+      const toggleConfirmPasswordVisibility = () => {
+        setShowConfirmPassword(!showConfirmPassword);
+      };
 
-  const onSignUpPress = () => {
-    Keyboard.dismiss();
-    if (!firstname) {
-      Alert.alert("first Name is required");
-    } 
-    else if (!lastname) {
-      Alert.alert("last name is required");}
-    else if (!email) {
-      Alert.alert("Email is required");
-    } else if (!pass) {
-      Alert.alert("Password is required");
-    } else if (pass !== cpass) {
-      Alert.alert("Password did not match");
-    } else{
-      handleSignUp();
-    //   SignUpRequest(email, pass)
-    //   .then(() => {
-    //     let uid = firebase.auth().currentUser.uid;
-    //     let profileImg = "";
-    //     AddUser(firstname,lastname, email, uid, profileImg)
-    //       .then(() => {
-    //         setAsyncStorage(keys.uuid, uid);
-    //         setUniqueValue(uid);
-    //         navigation.replace("Dashboard");
-    //       })
-    //       .catch((err) => {
-            
-    //         alert(err);
-    //       });
-    //   })
-    //   .catch((err) => {
-        
-    //     alert(err);
-    //   });
-     }
-  }
+  
 
   return (
     <View style={styles.container}>
-        <View style={styles.circles}>
-        
-          <TouchableOpacity style={styles.backbutton} onPress={() => navigation.goBack()}>
-            <Image
-                source={require('../images/back.png')} 
-                style={styles.backicon}
-            />
-            </TouchableOpacity>
-      
-       
-        </View>
-        <View style={styles.form}>
-            <Text style={styles.boldheading}>Sign Up</Text>
+    <Image
+      style={styles.logo}
+      resizeMode="contain"
+      source={require("../images/Asset_2.png")} // Replace with your logo path
+    />
+    <Text style={styles.title}>Signup</Text>
 
-            <Text  style={styles.smalltext}>First Name</Text>
-
-            <TextInput style={styles.tInput  } 
-            onChangeText={setFirstName}
-            value={firstname} 
-            placeholder="Your First Name" placeholderTextColor='#9796A1' /> 
-             <Text  style={styles.smalltext}>First Name</Text>
-
-            <TextInput style={styles.tInput  } 
-            onChangeText={setLastName}
-            value={lastname} 
-            placeholder="Your Last Name" placeholderTextColor='#9796A1' /> 
-            <Text  style={styles.smalltext}>Email</Text>
-
-            <TextInput style={styles.tInput  } 
-            onChangeText={setEmail}
-            value={email}
-            placeholder="Your email or phone" placeholderTextColor='#9796A1'/> 
-        
-            <Text  style={styles.smalltext}>Password</Text>
-            <View style={styles.passwordContainer}>
-                <TextInput style={styles.pInput  } 
-                 onChangeText={setPass}
-                 value={pass}
-                 secureTextEntry={!showPassword}
-                 placeholder="Password"
-                 placeholderTextColor="#9796A1"    />
-
-            <TouchableOpacity onPress={toggleShowPassword} style={styles.eyeIconContainer}>
-                <Image
-                source={showPassword ? require('../images/showpass.png') : require('../images/showpass.png')}
-                style={styles.eyeIcon}
-                />
-          </TouchableOpacity>
-            </View>
-
-            <Text  style={styles.smalltext}>Confirm Password</Text>
-            <View style={styles.passwordContainer}>
-                <TextInput style={styles.pInput  } 
-                 onChangeText={setCPass}
-                 value={cpass}
-                 secureTextEntry={!showPassword}
-                 placeholder="Password"
-                 placeholderTextColor="#9796A1"    />
-
-            <TouchableOpacity onPress={toggleShowPassword} style={styles.eyeIconContainer}>
-                <Image
-                source={showPassword ? require('../images/showpass.png') : require('../images/showpass.png')}
-                style={styles.eyeIcon}
-                />
-          </TouchableOpacity>
-            </View>
-
-        <TouchableOpacity style={styles.entryButtonGreen} onPress={() => onSignUpPress()}>
-            <Text style={styles.smalltextWhite} >SIGN UP</Text>
-        </TouchableOpacity>
-
-        <View style={styles.endlineV}>
-            <Text style={styles.endlineT}>Already have an account?</Text>
-            <TouchableOpacity onPress={() => navigation.goBack()}><Text style={styles.endlineTg}> Login</Text></TouchableOpacity>
-        </View>
-
-        </View>
-
-
-
-   
-
-
+    <TextInput  onChangeText={setFirstName}
+          value={firstname}  style={styles.input} placeholder="Enter First Name" />
+    <TextInput  onChangeText={setLastName}
+          value={lastname}  style={styles.input} placeholder="Enter Last Name" />
+    <TextInput  onChangeText={setEmail}
+          value={email} style={styles.input} placeholder="Enter Your Email" />
+    
+    <View style={styles.passwordContainer}>
+      <TextInput
+       onChangeText={setPass}
+       value={pass}
+        style={styles.passwordInput}
+        secureTextEntry={!showPassword}
+        placeholder="Enter Your Password"
+      />
+      <TouchableOpacity
+        style={styles.toggleEye}
+        onPress={togglePasswordVisibility}
+      >
+        <Image
+          source={showPassword ? require('../images/eye_open.png') : require('../images/eye_open.png')}
+          style={styles.eyeIcon}
+        />
+      </TouchableOpacity>
     </View>
+
+    <View style={styles.passwordContainer}>
+      <TextInput
+       onChangeText={setCPass}
+       value={cpass}
+        style={styles.passwordInput}
+        secureTextEntry={!showConfirmPassword}
+        placeholder="Enter Your Confirm Password"
+      />
+      <TouchableOpacity
+        style={styles.toggleEye}
+        onPress={toggleConfirmPasswordVisibility}
+      >
+        <Image
+          source={showConfirmPassword ? require('../images/eye_open.png') : require('../images/eye_open.png')}
+          style={styles.eyeIcon}
+        />
+      </TouchableOpacity>
+    </View>
+
+    <TouchableOpacity style={styles.button}  onPress={() =>handleSignUp()}>
+      <Text style={styles.buttonText1}>Signup</Text>
+    </TouchableOpacity>
+
+    <View style={styles.existingAccount}>
+      <Text style={styles.textExistingAcc}>Already Have an Account?</Text>
+      <TouchableOpacity onPress={() => navigation.goBack()}>
+        <Text style={styles.loginText}>Log In</Text>
+      </TouchableOpacity>
+    </View>
+
+    <Text>______________________  OR  ______________________</Text>
+
+    <TouchableOpacity style={styles.socialButton1}>
+      <Image
+        source={require("../images/facebooklogo.png")} // Replace with Facebook logo path
+        style={styles.logoImage}
+      />
+      <Text style={styles.buttonText2}>Login with Facebook</Text>
+    </TouchableOpacity>
+
+    <TouchableOpacity style={styles.socialButton2}>
+      <Image
+        source={require("../images/googlelogo.png")} // Replace with Google logo path
+        style={styles.logoImage}
+      />
+      <Text style={styles.buttonText3}>Login with Google</Text>
+    </TouchableOpacity>
+  </View>
   );
 };
 
@@ -202,188 +169,129 @@ const styles = StyleSheet.create({
 
 
 
-
-
-
-
-
+logo: {
+    width: 260,
+    height: 55,
+    marginBottom: 20,
+    alignSelf: 'center',
+  },
   container: {
-     flex: 1,
+    flex: 1,
     alignItems: 'center',
-    backgroundColor:'#FFFFFF'
-    
-
-  },
- 
-  ellipse127:{
-    borderRadius: 63.5, 
-    top: -99,
-    left: -205,
-    width: 165,
-    height: 165,
-    position: "absolute",
-  },
-
-  ellipse126:{
-    top: 40,
-    left: -217,
-    width: 45,
-    height: 45, 
-    position: 'absolute',
-    transform: [{ rotate: '45deg' }],
-
-  },
-
-  ellipse128:{
-    
-    width: 165,
-    height: 165,
-    borderRadius: 0, 
-    position: 'absolute',
-    top: -70, 
-    left: 70, 
-    
-  },
-  form:{
-
-    
-    alignSelf: 'stretch', 
-    marginLeft: 26,
-    marginRight:25,
-    padding: 10, 
-    // borderWidth:2,
-    // borderColor:'red',
-    // minHeight:620,
-  },
-
-  boldheading:{
-    fontSize: 36,
-    color: "#000",
-    fontFamily: 'SofiaProSemiBold',
-
-  },
-  smalltext:{
-    marginTop:31,
-    fontFamily:'SofiaProRegular',
-    color:'#9796A1'
-  },
-  tInput:{
-    marginTop:12,
-    shadowColor: 'rgba(211, 209, 216, 0.25)',
-    shadowRadius: 30,
-    borderColor: '#35654E',
-    borderWidth: 1,
-    borderStyle: 'solid',
-    shadowOpacity: 1,
-    shadowOffset: {
-      width: 15,
-      height: 15,
-    },
-    height: 65,
-    borderRadius: 10,
-    width: '100%',
+    justifyContent: 'center',
     backgroundColor: 'white',
-    paddingLeft: 15,
-    fontFamily:'SofiaProRegular',
- 
-    },
-    pInput:{
-        marginTop:12,
-        shadowColor: 'rgba(211, 209, 216, 0.25)',
-        shadowRadius: 30,
-        borderColor: '#35654E',
-        borderWidth: 1,
-        borderStyle: 'solid',
-        shadowOpacity: 1,
-        shadowOffset: {
-          width: 15,
-          height: 15,
-        },
-        height: 65,
-        borderRadius: 10, // Adjust the border radius for a more rounded appearance
-        width: '100%',
-        backgroundColor: 'white',
-        paddingLeft: 15,
-        fontFamily:'SofiaProRegular',
-        paddingRight: 40,
-        },
-
-    
-        passwordContainer: {
-            flexDirection: 'row',
-            alignItems: 'center',
-         
-          },
-          eyeIconContainer: {
-            position: 'absolute',
-            right: 15,
-            top:32
-          },
-          eyeIcon: {
-            width: 24,
-            height: 24,
-            tintColor: '#9796A1', 
-          },
-          
-          
-    entryButtonGreen:{
-        marginTop:38 ,
-        width: 248,
-        height: 60,
-        borderRadius: 28.5,
-        backgroundColor: '#34354E',
-        shadowColor: '#7A81BE',
-        shadowOffset: { width: 0, height: 10 },
-        shadowOpacity: 0.16,
-        shadowRadius: 40,
-        justifyContent: 'center',
-        alignItems: 'center',
-        alignSelf: 'center',
-    },
-    smalltextWhite: {
-        color: '#FFFFFF',
-        fontSize: 14,
-        fontFamily: 'SofiaProRegular', // Assuming 'Sofia Pro' is available as a font
-      },
-
-      endlineV:{
-        flexDirection:'row',
-        alignSelf:'center',
-     
-       
-    
-      } ,
-      endlineT:{
-        fontFamily: 'SofiaProRegular',
-        fontSize: 14,
-        color:'#5B5B5E'
-      },
-      endlineTg:{
-        fontFamily: 'SofiaProRegular',
-        fontSize: 14,
-        color:'#35654E'
-      },
-      backbutton:{
-        top: 40,
-        left: -170,
-     
-        position: "absolute",
-        width: 50,
-        height: 50,
-        borderRadius: 20, // Half of the width and height to make it a circle
-        backgroundColor: 'white',
-        justifyContent: 'center',
-        alignItems: 'center',
-        shadowColor: 'rgba(0, 0, 0, 0.5)',
-        shadowOffset: { width: 0, height: 6 },
-        shadowOpacity: 1,
-        shadowRadius: 8,
-        elevation: 8, 
-      },
-      backicon:{
-        width: 20,
-        height: 20,
-        tintColor: '#111719'
-      }
+  },
+  title: {
+    fontSize: 24,
+    color: '#000',
+    fontFamily: 'Poppins-Black',
+    fontWeight: 'bold',
+    marginBottom: 20,
+  },
+  input: {
+    width: 312,
+    height: 48,
+    borderWidth: 1,
+    borderColor: '#ccc',
+    borderRadius: 10,
+    paddingLeft: 10,
+    marginBottom: 19,
+    borderColor: "#374A9F",
+    backgroundColor:"#F0F7FF",
+    fontFamily: 'Poppins',
+  },
+  passwordContainer: {
+    position: 'relative',
+  },
+  passwordInput: {
+    width: 312,
+    height: 48,
+    borderWidth: 1,
+    borderColor: '#ccc',
+    borderRadius: 10,
+    paddingLeft: 10,
+    marginBottom: 19,
+    borderColor: "#374A9F",
+    backgroundColor:"#F0F7FF",
+    fontFamily: 'Poppins',
+  },
+  toggleEye: {
+    position: 'absolute',
+    top: 15,
+    right: 10,
+  },
+  eyeIcon: {
+    width: 24,
+    height: 24,
+  },
+  button: {
+    width: 312,
+    height: 48,
+    backgroundColor: '#28246A',
+    borderRadius: 5,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginBottom: 20,
+  },
+  buttonText1: {
+    color: 'white',
+    fontSize: 15,
+  },
+  buttonText2: {
+    color: 'white',
+    fontSize: 14,
+  },
+  buttonText3: {
+    color: 'black',
+    fontSize: 14,
+    fontFamily: 'Poppins',
+    flexDirection: 'row'
+  },
+  existingAccount: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 10,
+    color: '#FFF'
+  },
+  textExistingAcc: {
+    color: '#000',
+    fontFamily: 'Poppins-Black',
+    fontSize: 14,
+    fontWeight: '700',
+  },
+  loginText: {
+    marginLeft: 5,
+    color: 'blue',
+  },
+  socialButton1: {
+    width: 312,
+    height: 48,
+    borderWidth: 1,
+    borderColor: '#ccc',
+    borderRadius: 10,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginBottom: -10,
+    marginTop: 20,
+    backgroundColor: '#1877F2',
+    flexDirection: 'row'
+  },
+  socialButton2: {
+    width: 312,
+    height: 48,
+    borderWidth: 1,
+    borderColor: '#ccc',
+    borderRadius: 10,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginTop: 30,
+    flexDirection: 'row'
+  },
+  logoImage: {
+    width: 20,
+    height: 20, 
+    left: 20,
+    position: 'absolute'
+  },
      
 });

@@ -45,61 +45,71 @@ const LoginScreen = ({navigation}) => {
         // Display error message or handle accordingly
 });
 }
-  const toggleShowPassword = () => {
-    setShowPassword((prevShowPassword) => !prevShowPassword);
-  };
+const togglePasswordVisibility = () => {
+  setShowPassword(!showPassword);
+};
   return (
     <View style={styles.container}>
-        <View style={styles.circles}>
-       
-        </View>
-        <View style={styles.form}>
-            <Text style={styles.boldheading}>Login</Text>
+      <Image
+        style={styles.logo}
+        resizeMode="contain"
+        source={require("../images/Asset_2.png")} // Replace with your logo path
+      />
+      <Text style={styles.title}>Login</Text>
+      <Text style={styles.title2}>Welcome back!</Text>
 
-        <Text  style={styles.smalltext}>Email</Text>
-
-            <TextInput style={styles.tInput  } 
-            onChangeText={setEmail}
-            value={email}
-            placeholder="Your email or phone" placeholderTextColor='#9796A1'/> 
-        
-            <Text  style={styles.smalltext}>Password</Text>
-            <View style={styles.passwordContainer}>
-                <TextInput style={styles.pInput  } 
-                 onChangeText={setPass}
+      <TextInput  onChangeText={setEmail}
+            value={email} style={styles.input} placeholder="Enter Your Email" />
+      <View style={styles.passwordContainer}>
+        <TextInput onChangeText={setPass}
                  value={pass}
-                 secureTextEntry={!showPassword}
-                 placeholder="Password"
-                 placeholderTextColor="#9796A1"    />
-
-            <TouchableOpacity onPress={toggleShowPassword} style={styles.eyeIconContainer}>
-                <Image
-                source={showPassword ? require('../images/showpass.png') : require('../images/showpass.png')}
-                style={styles.eyeIcon}
-                />
-          </TouchableOpacity>
-            </View>
-
-          
-        <TouchableOpacity style={styles.entryButtonGreen} onPress={() => handleSignIn()} >
-            <Text style={styles.smalltextWhite} >LOGIN</Text>
+          style={styles.passwordInput}
+          secureTextEntry={!showPassword}
+          placeholder="Enter Your Password"
+        />
+        <TouchableOpacity 
+          style={styles.toggleEye}
+          onPress={togglePasswordVisibility}
+        >
+          <Image
+            source={showPassword ? require('../images/eye_open.png') : require('../images/eye_open.png')}
+            style={styles.eyeIcon}
+          />
         </TouchableOpacity>
+      </View>
 
-        <View style={styles.endlineV}>
-            <Text style={styles.endlineT}>Don't have an account?</Text>
-            <TouchableOpacity onPress={() => navigation.navigate('RegisterScreen')}><Text style={styles.endlineTg}> Sign Up</Text></TouchableOpacity>
-        </View>
+      <TouchableOpacity onPress={() => navigation.navigate('ForgotPassword')} style={styles.forgotPasswordButton}>
+        <Text style={styles.forgotPasswordText}>Forgot Password?</Text>
+      </TouchableOpacity>
 
+      <TouchableOpacity onPress={() => handleSignIn()} style={styles.button}>
+        <Text style={styles.buttonText1}>Login</Text>
+      </TouchableOpacity>
 
+      <View style={styles.newAccount}>
+        <Text style={styles.newAccountText}>Don't have an account?</Text>
+        <TouchableOpacity onPress={() => navigation.navigate('RegisterScreen')}> 
+          <Text style={styles.signupText}>Signup</Text>
+        </TouchableOpacity>
+      </View>
 
+      <Text>______________________  OR  ______________________</Text>
 
-          </View>
+      <TouchableOpacity style={styles.socialButton1}>
+        <Image
+          source={require("../images/facebooklogo.png")} // Replace with Facebook logo path
+          style={styles.logoImage}
+        />
+        <Text style={styles.buttonText2}>Login with Facebook</Text>
+      </TouchableOpacity>
 
-
-
-   
-
-
+      <TouchableOpacity style={styles.socialButton2}>
+        <Image
+          source={require("../images/googlelogo.png")} // Replace with Google logo path
+          style={styles.logoImage}
+        />
+        <Text style={styles.buttonText3}>Login with Google</Text>
+      </TouchableOpacity>
     </View>
   );
 };
@@ -108,168 +118,143 @@ export default LoginScreen;
 
 const styles = StyleSheet.create({
 
-
   container: {
     flex: 1,
-   alignItems: 'center',
-   backgroundColor:'#FFFFFF'
-
- },
- circles:{
-   
-   height: 180,
-   
-
-
-
- },
- ellipse127:{
-   borderRadius: 63.5, 
-   top: -99,
-   left: -205,
-   width: 165,
-   height: 165,
-   position: "absolute",
- },
-
- ellipse126:{
-   top: 40,
-   left: -217,
-   width: 45,
-   height: 45, 
-   position: 'absolute',
-   transform: [{ rotate: '45deg' }],
-
- },
-
- ellipse128:{
-   
-   width: 165,
-   height: 165,
-   borderRadius: 0, 
-   position: 'absolute',
-   top: -70, 
-   left: 70, 
-   
- },
- form:{
-
-   
-   alignSelf: 'stretch', 
-   marginLeft: 26,
-   marginRight:25,
-   padding: 10, 
-   // borderWidth:2,
-   // borderColor:'red',
-   // minHeight:620,
- },
-
- boldheading:{
-   fontSize: 36,
-   color: "#000",
-   fontFamily: 'SofiaProSemiBold',
-
- },
- smalltext:{
-   marginTop:31,
-   fontFamily:'SofiaProRegular',
-   color:'#9796A1'
- },
- tInput:{
-   marginTop:12,
-   shadowColor: 'rgba(211, 209, 216, 0.25)',
-   shadowRadius: 30,
-   borderColor: '#35654E',
-   borderWidth: 1,
-   borderStyle: 'solid',
-   shadowOpacity: 1,
-   shadowOffset: {
-     width: 15,
-     height: 15,
-   },
-   height: 65,
-   borderRadius: 10,
-   width: '100%',
-   backgroundColor: 'white',
-   paddingLeft: 15,
-   fontFamily:'SofiaProRegular',
-
-   },
-   pInput:{
-       marginTop:12,
-       shadowColor: 'rgba(211, 209, 216, 0.25)',
-       shadowRadius: 30,
-       borderColor: '#35654E',
-       borderWidth: 1,
-       borderStyle: 'solid',
-       shadowOpacity: 1,
-       shadowOffset: {
-         width: 15,
-         height: 15,
-       },
-       height: 65,
-       borderRadius: 10, // Adjust the border radius for a more rounded appearance
-       width: '100%',
-       backgroundColor: 'white',
-       paddingLeft: 15,
-       fontFamily:'SofiaProRegular',
-       paddingRight: 40,
-       },
-
-   
-       passwordContainer: {
-           flexDirection: 'row',
-           alignItems: 'center',
-        
-         },
-         eyeIconContainer: {
-           position: 'absolute',
-           right: 15,
-           top:32
-         },
-         eyeIcon: {
-           width: 24,
-           height: 24,
-           tintColor: '#9796A1', 
-         },
-         
-         
-   entryButtonGreen:{
-       marginTop:32 ,
-       width: 248,
-       height: 60,
-       borderRadius: 28.5,
-       backgroundColor: '#35654E',
-       shadowColor: '#7A81BE',
-       shadowOffset: { width: 0, height: 10 },
-       shadowOpacity: 0.16,
-       shadowRadius: 40,
-       justifyContent: 'center',
-       alignItems: 'center',
-       alignSelf: 'center',
-   },
-   smalltextWhite: {
-       color: '#FFFFFF',
-       fontSize: 14,
-       fontFamily: 'SofiaProRegular', // Assuming 'Sofia Pro' is available as a font
-     },
-
-     endlineV:{
-       flexDirection:'row',
-       alignSelf:'center',
-       marginTop:33,
-      
-   
-     } ,
-     endlineT:{
-       fontFamily: 'SofiaProRegular',
-       fontSize: 14,
-       color:'#5B5B5E'
-     },
-     endlineTg:{
-       fontFamily: 'SofiaProRegular',
-       fontSize: 14,
-       color:'#35654E'
-     },
-    
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: 'white',
+  },
+  logo: {
+    width: 251,
+    height: 55,
+    marginBottom: 70 ,
+    alignSelf: 'center',
+  },
+  title: {
+    fontSize: 24,
+    color: '#000',
+    fontFamily: 'Poppins-Black',
+    fontWeight: 'bold',
+    marginBottom: 0,
+  }, 
+  title2: {
+    fontSize: 24,
+    color: '#000',
+    fontFamily: 'Poppins-Black',
+    fontWeight: 'bold',
+    marginBottom: 20,
+  },
+  input: {
+    width: 312,
+    height: 48,
+    borderWidth: 1,
+    borderColor: '#ccc',
+    borderRadius: 10,
+    paddingLeft: 10,
+    marginBottom: 19,
+    borderColor: "#374A9F",
+    backgroundColor:"#F0F7FF",
+    fontFamily: 'Poppins',
+  },
+  passwordContainer: {
+    position: 'relative',
+  },
+  passwordInput: {
+    width: 312,
+    height: 48,
+    borderWidth: 1,
+    borderColor: '#ccc',
+    borderRadius: 10,
+    paddingLeft: 10,
+    marginBottom: 19,
+    borderColor: "#374A9F",
+    backgroundColor:"#F0F7FF",
+    fontFamily: 'Poppins',
+  },
+  toggleEye: {
+    position: 'absolute',
+    top: 15,
+    right: 10,
+  },
+  eyeIcon: {
+    width: 24,
+    height: 24,
+  },
+  button: {
+    width: 312,
+    height: 48,
+    backgroundColor: '#28246A',
+    borderRadius: 5,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginBottom: 20,
+  },
+  buttonText1: {
+    color: 'white',
+    fontSize: 15,
+  },
+  forgotPasswordButton: {
+    marginBottom: 20,
+  },
+  forgotPasswordText: {
+    color: '#2F89FC',
+    fontFamily: 'Poppins',
+    fontSize: 14,
+  },
+  newAccount: {
+    flexDirection: 'row',
+    marginBottom: 20,
+  },
+  newAccountText: {
+    marginRight: 5,
+    color: '#000',
+    fontFamily: 'Poppins',
+    fontSize: 15,
+     
+  },
+  signupText: {
+    color: '#2F89FC',
+    fontFamily: 'Poppins',
+    fontSize: 14,
+  },
+  socialButton1: {
+    width: 312,
+    height: 48,
+    borderWidth: 1,
+    borderColor: '#ccc',
+    borderRadius: 10,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginBottom: -10,
+    marginTop: 20,
+    backgroundColor: '#1877F2',
+    flexDirection: 'row'
+  },
+  socialButton2: {
+    width: 312,
+    height: 48,
+    borderWidth: 1,
+    borderColor: '#ccc',
+    borderRadius: 10,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginTop: 30,
+    flexDirection: 'row'
+  },
+  logoImage: {
+    width: 20,
+    height: 20, 
+    left: 20,
+    position: 'absolute'
+  },
+  buttonText2: {
+    color: 'white',
+    fontFamily: 'Poppins',
+    fontSize: 14,
+  },
+  buttonText3: {
+    color: 'black',
+    fontFamily: 'Poppins',
+    fontSize: 14,
+  }
 });

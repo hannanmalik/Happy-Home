@@ -16,6 +16,8 @@
   import Messages from './screens/Message';
   import AsyncStorage from '@react-native-async-storage/async-storage';
 import auth from '@react-native-firebase/auth';
+import ForgotPassword from './screens/ForgotPassword';
+import ResetPassword from './screens/ResetPassword';
 
   const Stack = createNativeStackNavigator();
   const Drawer = createDrawerNavigator();
@@ -26,7 +28,7 @@ import auth from '@react-native-firebase/auth';
       <Tab.Navigator >
 
         <Tab.Screen name="Chats" component={Chats} options={{ headerShown: false }}/>
-        <Tab.Screen name="Profile"  component={Profile} options={{ headerShown: false }} />
+        {/* <Tab.Screen name="Profile"  component={Profile} options={{ headerShown: false }} /> */}
         <Tab.Screen name="Home" component={HomeScreen} />
         
         <Tab.Screen name="AddProperty" component={AddProperty} />
@@ -45,12 +47,30 @@ import auth from '@react-native-firebase/auth';
         component={LoginScreen}
         options={{headerShown: false}}
       />
-        <Stack.Screen
+
+      <Stack.Screen
         name="RegisterScreen"
         component={RegisterScreen}
         options={{headerShown: false}}
       />
-         
+        <Stack.Screen
+        name="ForgotPassword"
+        component={ForgotPassword}
+        options={{headerShown: false}}
+      />
+
+        <Stack.Screen
+        name="ResetPassword"
+        component={ResetPassword}
+        options={{headerShown: false}}
+      />
+
+      
+
+      
+      
+              {/* <Stack.Screen name="DescriptionScreen" component={DescriptionScreen} options={{ headerShown: false }}/> */}
+
       
         {/* <Stack.Screen name="DescriptionScreen" component={DescriptionScreen} options={{ headerShown: false }}/> */}
         <Stack.Screen name="ProfileTab" component={HomeTab} options={{ headerShown: false }}/>
