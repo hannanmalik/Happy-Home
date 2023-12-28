@@ -24,9 +24,9 @@ import auth from '@react-native-firebase/auth';
   function HomeTab() {
     return (
       <Tab.Navigator >
-        <Tab.Screen name="Profile"  component={Profile} options={{ headerShown: false }} />
+
         <Tab.Screen name="Chats" component={Chats} options={{ headerShown: false }}/>
-        
+        <Tab.Screen name="Profile"  component={Profile} options={{ headerShown: false }} />
         <Tab.Screen name="Home" component={HomeScreen} />
         
         <Tab.Screen name="AddProperty" component={AddProperty} />
@@ -55,7 +55,7 @@ import auth from '@react-native-firebase/auth';
         {/* <Stack.Screen name="DescriptionScreen" component={DescriptionScreen} options={{ headerShown: false }}/> */}
         <Stack.Screen name="ProfileTab" component={HomeTab} options={{ headerShown: false }}/>
         <Stack.Screen name="Messages" component={Messages} options={{ headerShown: false }}/>
-        <Stack.Screen name="EditProfile" component={EditProfile} options={{   }}/>
+        <Stack.Screen name="EditProfile" component={EditProfile} options={{ headerShown: false   }}/>
       </Stack.Navigator>
     );
   }

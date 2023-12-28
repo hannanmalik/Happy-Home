@@ -10,13 +10,14 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import auth from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
 import { ToastAndroid } from 'react-native';
+import ImagePicker from 'react-native-image-crop-picker';
 
 const EditProfile = ({navigation}) => {
   const [firstName, setFirstName] = React.useState('');
   const [lastName, setLastName] = React.useState('');
   const [phone, setPhone] = React.useState('');
   const [email, setEmail] = React.useState('');
-  const [url,setUrl] = React.useState('');
+  const [img,setImg] = React.useState('');
 
   
   useEffect(() => {
@@ -31,7 +32,7 @@ const EditProfile = ({navigation}) => {
                 setFirstName(data["firstname"]);
                 setLastName(data["lastname"]);
                 setPhone(data["phone"]);
-                setUrl(data["profile_pic"])
+                setImg(data["profile_pic"])
             }).catch(e => console.error(e))
 
     }
@@ -46,6 +47,7 @@ const updateUserProfile = async () => {
       firstname: firstName,
       lastname: lastName,
       phone: phone,
+      profile_pic:img
     });
 
 
@@ -63,6 +65,19 @@ const updateUserProfile = async () => {
   }
 };
 
+const choosePhotoFromLibrary = () => {
+  ImagePicker.openPicker({
+    width: 171,
+    height: 171,
+    cropping: true,
+    compressImageQuality:0.7
+  }).then((image) => {
+    console.log(image);
+    const imageUri = Platform.OS === 'ios' ? image.sourceURL : image.path;
+    setImg(image.path);
+  });
+};
+
   return(
     <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
     <View
@@ -75,12 +90,12 @@ const updateUserProfile = async () => {
         </TouchableOpacity>
     </View>
     <View style={styles.imageProfile}>
-      <View style={styles.circle}>
-        <Image source={{uri : url}}
+      <View style={styles.circle}  >
+        <Image source={{uri : img}}
           style={styles.dp}
         />
       </View>
-      <TouchableOpacity style={{position:'absolute',}}>
+      <TouchableOpacity style={{position:'absolute', }} onPress={choosePhotoFromLibrary}>
          <Image source={require('../images/vector1.png')}
           style={styles.v1}
         />

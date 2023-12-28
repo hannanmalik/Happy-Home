@@ -32,7 +32,7 @@ const handleSignUp = async () => {
         userId: newUser.uid,
         firstname: firstname,
         lastname:lastname,
-        profile_pic: 'https://source.unsplash.com/800x600/?hanging-pendant-light',
+        profile_pic: 'file:///storage/emulated/0/Android/data/com.happyhome/files/Pictures/00e2d292-0da9-460c-9181-486034d135ac.jpg',
         phone:null    
       }
 

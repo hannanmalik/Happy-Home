@@ -9,16 +9,16 @@ import {
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import auth from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
-import { GiftedChat,Bubble,InputToolbar ,Send,Composer} from 'react-native-gifted-chat';
+import { GiftedChat,Bubble,InputToolbar ,Send,Composer,Avatar} from 'react-native-gifted-chat';
 import { Center } from 'native-base';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 const Messages = ({route,navigation,}) => {
 //   const [name, setName] = React.useState('Michael Smith');
 //   const [email, setEmail] = React.useState('mmk12@gmail.com');
   const [users,setUsers] = React.useState([]);
-    const [currentDate, setCurrentDate] = useState('');
-    
-    const [messages, setMessages] = useState([])
+    // set[url,seturl] = React.useState(route.params.data.profile_pic);
+    const [messages, setMessages] = React.useState([])
+    const [url,setUrl] = React.useState('');
 
     useEffect(() => {
 
@@ -34,6 +34,32 @@ const Messages = ({route,navigation,}) => {
             setMessages(allMessages);
         });
     }, []);
+
+    useEffect(() => {
+      const getUsers = async () => {
+        try {
+          let userId = route.params.id;
+    
+          firestore()
+            .collection('users')
+            .doc(userId)
+            .get()
+            .then((response) => {
+              // console.log(response)
+              const data = response["_data"];
+              setUrl(data["profile_pic"]);
+              console.log(url);
+            })
+            .catch((e) => console.error(e));
+        } catch (error) {
+          console.error(error);
+        }
+      };
+    
+      getUsers();
+    }, []);
+    
+    
   
     const onSend = useCallback((messages = []) => {
         const msg = messages[0];
@@ -98,7 +124,7 @@ const Messages = ({route,navigation,}) => {
             <Send
               {...props}>
                 <View style={{flexDirection:'row',}}>
-                <Image source={ require('../images/chatArrow.png')} style={{marginRight:10,marginBottom:-10,height:50,width:50}}/>
+                <Image source={ require('../images/chatArrow.png')} style={{marginRight:-17,marginBottom:-10,height:48,width:48}}/>
                 </View>
               </Send>
              
@@ -111,18 +137,19 @@ const Messages = ({route,navigation,}) => {
             {...props}
             textInputStyle={{color:'black'}}
             containerStyle={{
-              backgroundColor: "#F0F5FF",
+               backgroundColor: "#F0F5FF",
               borderRadius:50,
               marginLeft:20,
               marginRight:20,
-              marginBottom:10,
+              marginBottom:5,
             }}
           />
         );
       };
 
       const renderComposer= (props) => { return ( <Composer {...props} placeholder={'     Message'} /> ); } 
-  
+      
+      
 
   return(
   <View style={styles.container}>
@@ -133,8 +160,8 @@ const Messages = ({route,navigation,}) => {
           <TouchableOpacity style={{flexDirection:'row',alignItems:'center'}} onPress={() => navigation.goBack()}>
           <Image source={ require('../images/chat_back.png') }
           style={{marginLeft:19}} />
-          <Image source={ require('../images/chatImg.png') }
-          style={{marginLeft:8.5}} />
+          <Image source={ {uri : route.params.data.profile_pic} }
+          style={{marginLeft:8.5,width:40,height:40,borderRadius:35}} />
           </TouchableOpacity>
           <Text style={styles.userItemT}>{`${route.params.data.firstname || ''} ${route.params.data.lastname || ''}`}</Text>
           </View>
@@ -152,12 +179,14 @@ const Messages = ({route,navigation,}) => {
       onSend={messages => onSend(messages)}
       user={{
         _id: route.params.id,
+        avatar: url,
       }}
       alwaysShowSend
       renderSend={props => renderSend(props)}
       renderBubble={props => renderBubble(props)}
       renderInputToolbar={props => customtInputToolbar(props)}
       renderComposer={props => renderComposer(props)}
+     
     />
     
     </View>

@@ -77,7 +77,7 @@ useEffect(() => {
         <TouchableOpacity style={styles.userItem} onPress={() => navigation.navigate('Messages',{data:item,id:id})}>
           <View style={{flexDirection:'row',alignItems:'center'}}>
           <Image source={{uri: item.profile_pic} }
-          style={styles.userIcon} />
+          style={{width:60,height:60,borderRadius:48}} />
           {/* <Text style={styles.userItemT}>Ronald Robertson</Text> */}
           <Text style={styles.userItemT}>{`${item.firstname || ''} ${item.lastname || ''}`}</Text>
           </View>
