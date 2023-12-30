@@ -1,23 +1,11 @@
+import 'react-native-gesture-handler'
 import React from 'react';
 import { Image, View, Text, StyleSheet, ImageBackground, TouchableOpacity } from 'react-native';
 
-const HomeSlider = ({ image, heading, description, onPress }) => (
+const HomeSlider = ({ image}) => (
+  
   <View style={styles.imageContainer}>
     <ImageBackground source={image} style={styles.imageBackground}>
-      <View style={styles.overlay}>
-        <View style={styles.content}>
-          <View style={styles.descText}>
-            <Text style={styles.heading}>{heading}</Text>
-            <Text style={styles.description}>{description}</Text>
-          </View>
-          <View style={styles.btn}>
-            <TouchableOpacity style={styles.button} onPress={onPress}>
-              <Text style={styles.buttonText}>Start Now  </Text>
-              <Image source={require('../images/back.png')} style={styles.arrowIcon} />
-            </TouchableOpacity>
-          </View>
-        </View>
-      </View>
     </ImageBackground>
   </View>
   
@@ -25,7 +13,7 @@ const HomeSlider = ({ image, heading, description, onPress }) => (
 
 const styles = StyleSheet.create({  
   imageContainer: {
-    height: 200
+    height: '100%',
   },
   imageBackground: {
     flex: 1,
@@ -34,7 +22,7 @@ const styles = StyleSheet.create({
   overlay: {
     ...StyleSheet.absoluteFillObject,
     marginLeft: 165,
-    backgroundColor: 'rgba(0, 0, 0, 0.5)', // Adjust opacity as needed
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
     
   },
   content: {

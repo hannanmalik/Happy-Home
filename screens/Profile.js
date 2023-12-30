@@ -1,5 +1,7 @@
 import 'react-native-gesture-handler'
 import React, {useState, useEffect} from 'react';
+import {LogBox} from 'react-native';
+
 import {
   View,
   StyleSheet,
@@ -9,7 +11,10 @@ import { useFocusEffect } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import auth from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
-
+import EditProfile from './EditProfile';
+import LoginScreen from './login';
+import { createNativeStackNavigator } from '@react-navigation/native-stack'; 
+const Stack = createNativeStackNavigator();
 
 const Profile = ({navigation}) => {
   const [name, setName] = React.useState('Michael Smith');
@@ -33,14 +38,35 @@ const Profile = ({navigation}) => {
 
 };
   useEffect(() => {
-    
+    LogBox.ignoreAllLogs();
     getUserCreds();
 },[])
 
 useFocusEffect(() => {
+  LogBox.ignoreAllLogs();
   getUserCreds();
 });
+const clearData = async () => {
+  try {
+    await AsyncStorage.clear();
+    console.log(await AsyncStorage.getItem('user_id'));
+    navigation.popToTop();
+  } catch (e) {
+    console.error(e);
+  }
+};
 
+const goToEditProfile = () =>{
+  navigation.navigate('Edit Profile');
+}
+return(<Stack.Navigator>
+  <Stack.Screen name="Profile1" component={Profile1} options={{ headerShown: false }}/>
+  <Stack.Screen name="Edit Profile" component={EditProfile}options={{ headerShown: false }} />
+</Stack.Navigator>);
+
+
+
+function Profile1(){
   return(
   <View style={styles.container}>
     <View style={styles.imageProfile}>
@@ -51,7 +77,7 @@ useFocusEffect(() => {
       </View>
       <Text style={styles.profileNameText}>{name}</Text>
       <Text style={styles.emailText} >{email}</Text>
-      <TouchableOpacity style={styles.editButton} onPress={() => navigation.navigate('EditProfile')}>
+      <TouchableOpacity style={styles.editButton} onPress={goToEditProfile}>
         <Text style={styles.editButtonText}>Edit</Text>
       </TouchableOpacity>
     </View>
@@ -87,6 +113,12 @@ useFocusEffect(() => {
         <Text style={styles.iconText}>Delete Account</Text>
       </TouchableOpacity>
 
+      <TouchableOpacity style={styles.listBox} onPress={clearData}>
+      <Image source={ require('../images/drawerlogout.png') }
+        style={styles.icon_delete} />
+        <Text style={styles.iconText}>Log Out</Text>
+      </TouchableOpacity>
+
       
     </View>
     
@@ -95,7 +127,7 @@ useFocusEffect(() => {
   </View>
   );
 };
-
+}
 export default Profile;
 
 const styles = StyleSheet.create({

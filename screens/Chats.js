@@ -9,6 +9,11 @@ import {
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import auth from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
+import Messages from './Message';
+import HomeScreen from './HomeScreen';
+import { createNativeStackNavigator } from '@react-navigation/native-stack'; 
+const Stack = createNativeStackNavigator();
+
 let id ='';
 const Chats = ({navigation}) => {
   const [name, setName] = React.useState('Michael Smith');
@@ -61,12 +66,21 @@ useEffect(() => {
   getUsers();
 }, []);
 
+return(<Stack.Navigator >
+  <Stack.Screen name="Chats1" component={Chats1} options={{ headerShown: false }}/>
+  <Stack.Screen name="Messages" component={Messages} options={{ headerShown: false }} />
+</Stack.Navigator>);
+
+function Chats1(){
   return(
   <View style={styles.container}>
     <View style={styles.chatHeader}>
       <Text style={styles.dateTextHeader}>{currentDate}</Text>
-      <View style={{flexDirection:'row',justifyContent:'space-between',width:'100%',alignItems:'center'}}>
-        <Text style={styles.chatTextHeader}>Chat</Text>
+      <View style={{flexDirection:'row',justifyContent:'space-between',width:'100%',alignItems:'center',}}>
+        <TouchableOpacity  style={{flexDirection:'row',justifyContent:'flex-start',alignItems:'center'}}  onPress={() => navigation.goBack()}>
+        <Image source={ require('../images/chat_back.png') } style={{height:15,width:15}}/>
+        <Text style={[styles.chatTextHeader,{marginLeft:3}]}>Chat</Text>
+        </TouchableOpacity>
         <Image source={ require('../images/navigation-bar-light-edit.png') }
           style={styles.navigation_bar_light_edit} />
       </View>
@@ -96,7 +110,7 @@ useEffect(() => {
   </View>
   );
 };
-
+}
 export default Chats;
 
 

@@ -15,6 +15,7 @@ const LoginScreen = ({navigation}) => {
   const [email, setEmail] = React.useState('');
   const [pass, setPass] = React.useState('');
   const [url,setUrl] = React.useState('');
+  
   // useEffect(() => {
   //   AsyncStorage.getItem("user_id").then(res => navigation.navigate("ProfileTab"))},[]);
 
@@ -26,6 +27,8 @@ const LoginScreen = ({navigation}) => {
       .then((userCredential) => {
         const user = userCredential.user;
         console.log('User signed in:', user)
+        setEmail('');
+        setPass('');
         navigation.navigate('ProfileTab')
 
         try {
