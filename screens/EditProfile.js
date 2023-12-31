@@ -283,17 +283,17 @@ const styles = StyleSheet.create({
     marginTop:22.4,
     borderRadius: 5.285,
     width: '80%',
-    height: 37,
+    height: 42,
     paddingVertical: 2.642,
     paddingHorizontal: 96.448,
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#28246A',
-    marginTop:155
+    marginTop:100
   },
   saveButtonText: {
     color: '#FFFFFF', 
-    fontSize: 15, 
+    fontSize: 17, 
     fontFamily:"Poppins-SemiBold"
   },
   
